@@ -13,28 +13,30 @@ module.exports = {
         .then(user => {
             return res.json(user);
         })
-        .catch(error => {
-            return res.status(400).json({ errors: error.errors });
+        .catch(err => {
+            const error = [];
+
+            err.errors.map(e => {
+                error.push(e.message);
+            });
+
+            return res.status(400).json({ error });
         });
     },
 
-    async login (req, res) {
+    async login(req, res) {
         const { email, password } = req.body;
 
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.status(401).json({ message: "Usuário não encontrado" });
+            return res.status(401).json({ error: "Usuário não encontrado." });
         }
 
         if (user.password != password) {
-            return res.status(401).json({ message: "Senha inválida" });
+            return res.status(401).json({ error: "Senha incorreta." });
         }
 
-        return res.json({ 
-            id: user.id,
-            name: user.name,
-            email: user.email
-        });
+        return res.json(user);
     }
 };

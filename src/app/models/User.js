@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "Campo nome obrigatório"
+                    msg: "Campo nome obrigatório."
                 }
             }
         },
@@ -15,15 +15,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "Campo e-mail obrigatório"
+                    msg: "Campo e-mail obrigatório."
                 },
 
                 isEmail: {
-                    msg: "Campo e-mail inválido",
+                    msg: "Campo e-mail inválido.",
                 }
             },
             unique: {
-                msg: "O e-mail informado já existe",
+                msg: "O e-mail informado já existe.",
             }
         },
 
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "Campo senha obrigatório"
+                    msg: "Campo senha obrigatório."
                 }
             }
         }
