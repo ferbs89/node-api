@@ -3,24 +3,38 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "Campo nome obrigatório"
+                }
+            }
         },
 
         email: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
+                notEmpty: {
+                    msg: "Campo e-mail obrigatório"
+                },
+
                 isEmail: {
-                    msg: "Invalid e-mail format!",
+                    msg: "Campo e-mail inválido",
                 }
             },
             unique: {
-                msg: "E-mail already exists!",
+                msg: "O e-mail informado já existe",
             }
         },
 
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "Campo senha obrigatório"
+                }
+            }
         }
     });
 

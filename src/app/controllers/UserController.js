@@ -14,7 +14,27 @@ module.exports = {
             return res.json(user);
         })
         .catch(error => {
-            return res.status(400).send(error.message);
+            return res.status(400).json({ errors: error.errors });
         });
     },
+
+    async login (req, res) {
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ where: { email } });
+
+        if (!user) {
+            return res.status(401).json({ message: "Usuário não encontrado" });
+        }
+
+        if (user.password != password) {
+            return res.status(401).json({ message: "Senha inválida" });
+        }
+
+        return res.json({ 
+            id: user.id,
+            name: user.name,
+            email: user.email
+        });
+    }
 };
