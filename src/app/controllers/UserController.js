@@ -37,6 +37,6 @@ module.exports = {
             return res.status(401).json({ error: "Senha incorreta." });
         }
 
-        return res.json(user);
+        return res.json({ user });
     }
 };
