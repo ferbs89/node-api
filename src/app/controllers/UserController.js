@@ -1,8 +1,12 @@
 const { User } = require("../models");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
     async index(req, res) {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            attributes: { exclude: ["password"] }
+        });
+
         return res.json(users);
     },
 
@@ -11,6 +15,8 @@ module.exports = {
             req.body
         )
         .then(user => {
+            user.password = undefined;
+
             return res.json(user);
         })
         .catch(err => {
@@ -29,14 +35,19 @@ module.exports = {
 
         const user = await User.findOne({ where: { email } });
 
-        if (!user) {
-            return res.status(401).json({ error: "Usuário não encontrado." });
-        }
+        if (!user)
+            return res.status(401).json({ error: "E-mail não encontrado." });
 
-        if (user.password != password) {
+        if (user.password != password)
             return res.status(401).json({ error: "Senha incorreta." });
-        }
 
-        return res.json({ user });
+        user.password = undefined;
+
+        const token = jwt.sign({ id: user.id }, process.env.APP_SECRET);
+
+        return res.json({ 
+            user,
+            token
+        });
     }
 };
