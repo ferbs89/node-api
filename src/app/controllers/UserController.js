@@ -7,7 +7,7 @@ module.exports = {
             attributes: { exclude: ["password"] }
         });
 
-        return res.json(users);
+        return res.json({ users });
     },
 
     async store(req, res) {

@@ -2,9 +2,10 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
+    const errorMessage = "As credenciais não estão sendo enviadas ou são inválidas.";
 
     if (!authHeader)
-        return res.status(401).json({ error: "As credenciais não estão sendo enviadas ou são inválidas." });
+        return res.status(401).json({ error: errorMessage });
 
     const [ scheme, token ] = authHeader.split(" ");
 
@@ -16,6 +17,6 @@ module.exports = (req, res, next) => {
         return next();
 
     } catch (error) {
-        return res.status(401).json({ error: "As credenciais não estão sendo enviadas ou são inválidas." });
+        return res.status(401).json({ error: errorMessage });
     }
 };

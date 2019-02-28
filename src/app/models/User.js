@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
             },
             unique: {
-                msg: "O e-mail informado já existe.",
+                msg: "O e-mail informado já possui cadastro.",
             }
         },
 
