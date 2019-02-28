@@ -4,7 +4,10 @@ const jwt = require("jsonwebtoken");
 module.exports = {
     async index(req, res) {
         const users = await User.findAll({
-            attributes: { exclude: ["password"] }
+            attributes: { exclude: ["password"] },
+            order: [
+                ["name", "ASC"],
+            ]
         });
 
         return res.json({ users });
