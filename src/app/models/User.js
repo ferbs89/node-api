@@ -2,7 +2,6 @@ module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("User", {
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
             validate: {
                 notEmpty: {
                     msg: "Campo nome obrigatório."
@@ -12,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
 
         email: {
             type: DataTypes.STRING,
-            allowNull: false,
             validate: {
                 notEmpty: {
                     msg: "Campo e-mail obrigatório."
@@ -21,15 +19,11 @@ module.exports = (sequelize, DataTypes) => {
                 isEmail: {
                     msg: "Campo e-mail inválido.",
                 }
-            },
-            unique: {
-                msg: "O e-mail informado já possui cadastro.",
             }
         },
 
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
             validate: {
                 notEmpty: {
                     msg: "Campo senha obrigatório."

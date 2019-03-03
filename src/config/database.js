@@ -1,6 +1,4 @@
-require("dotenv").config({
-  path: ".env"
-});
+require("dotenv").config();
 
 module.exports = {
   host: process.env.DB_HOST,
@@ -15,6 +13,7 @@ module.exports = {
   logging: false,
   define: {
     timestamps: true,
+    paranoid: true,
     underscored: true,
     underscoredAll: true,
   }

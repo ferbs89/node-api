@@ -14,6 +14,11 @@ module.exports = {
     },
 
     async store(req, res) {
+        const user = await User.findOne({ where: { email: req.body.email } });
+
+        if (user)
+            return res.status(400).json({ error: "O e-mail informado já possui cadastro." });
+
         await User.create(
             req.body
         )
@@ -23,14 +28,46 @@ module.exports = {
             return res.json(user);
         })
         .catch(err => {
+            if (!err.errors)
+                return res.status(400).json({ error: "Não foi possível salvar o usuário." });
+
             const error = [];
 
-            err.errors.map(e => {
-                error.push(e.message);
-            });
+            err.errors.map(e => error.push(e.message));
 
             return res.status(400).json({ error });
         });
+    },
+
+    async show(req, res) {
+        const user = await User.findByPk(req.params.id);
+
+        if (!user)
+            return res.status(400).json({ error: "Usuário não encontrado." });
+
+        return res.json({ user });
+    },
+
+    async update(req, res) {
+        const user = await User.findByPk(req.params.id);
+
+        if (!user)
+            return res.status(400).json({ error: "Usuário não encontrado." });
+
+        await user.update(req.body);
+
+        return res.json({ user });
+    },
+
+    async destroy(req, res) {
+        const user = await User.findByPk(req.params.id);
+
+        if (!user)
+            return res.status(400).json({ error: "Usuário não encontrado." });
+
+        user.destroy();
+
+        return res.send();
     },
 
     async login(req, res) {
