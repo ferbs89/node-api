@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 module.exports = {
     async index(req, res) {
         const users = await User.findAll({
-            attributes: { exclude: ["password"] },
+            attributes: { 
+                exclude: ["password"] 
+            },
             order: [
                 ["name", "ASC"],
             ]
@@ -14,7 +16,11 @@ module.exports = {
     },
 
     async store(req, res) {
-        const user = await User.findOne({ where: { email: req.body.email } });
+        const user = await User.findOne({ 
+            where: { 
+                email: req.body.email 
+            } 
+        });
 
         if (user)
             return res.status(400).json({ error: "O e-mail informado já possui cadastro." });
@@ -25,7 +31,7 @@ module.exports = {
         .then(user => {
             user.password = undefined;
 
-            return res.json(user);
+            return res.json({ user });
         })
         .catch(err => {
             if (!err.errors)
@@ -73,7 +79,11 @@ module.exports = {
     async login(req, res) {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({ 
+            where: { 
+                email 
+            } 
+        });
 
         if (!user)
             return res.status(401).json({ error: "E-mail não encontrado." });
