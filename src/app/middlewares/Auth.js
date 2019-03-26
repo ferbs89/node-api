@@ -1,6 +1,7 @@
+const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     const errorMessage = "As credenciais não estão sendo enviadas ou são inválidas.";
 
@@ -11,8 +12,13 @@ module.exports = (req, res, next) => {
 
     try {
         decoded = jwt.verify(token, process.env.APP_SECRET);
-        
-        req.userId = decoded.id;
+
+        const user = await User.findByPk(decoded.id);
+
+        if (!user)
+            return res.status(401).json({ user: null, error: errorMessage });
+
+        req.userId = user.id;
 
         return next();
 
