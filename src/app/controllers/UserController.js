@@ -86,10 +86,10 @@ module.exports = {
         });
 
         if (!user)
-            return res.status(401).json({ error: "E-mail não encontrado." });
+            return res.status(400).json({ error: "E-mail não encontrado." });
 
         if (user.password != password)
-            return res.status(401).json({ error: "Senha incorreta." });
+            return res.status(400).json({ error: "Senha incorreta." });
 
         user.password = undefined;
 
