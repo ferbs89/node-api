@@ -10,6 +10,8 @@ routes.post("/users", UserController.store);
 // Login
 routes.post("/login", UserController.login);
 
+routes.get("/mail", UserController.mail);
+
 // Authentication
 routes.use(AuthMiddleware);
 

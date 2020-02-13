@@ -1,5 +1,6 @@
-const { User } = require("../models");
-const jwt = require("jsonwebtoken");
+const { User } = require('../models');
+const jwt = require('jsonwebtoken');
+const Mail = require('../../lib/Mail');
 
 module.exports = {
     async index(req, res) {
@@ -98,6 +99,19 @@ module.exports = {
         return res.json({ 
             user,
             token
+        });
+    },
+
+    async mail(req, res) {
+        await Mail.sendMail({
+            from: 'Queue Test <queue@node-api.com>',
+            to: 'Fernando Sanches <ferbs89@gmail.com>',
+            subject: 'Novo e-mail',
+            html: 'Olá mundo!'
+        });
+
+        return res.json({
+            message: 'E-mail enviado com sucesso!'
         });
     }
 };
