@@ -10,8 +10,6 @@ routes.post("/users", UserController.store);
 // Login
 routes.post("/login", UserController.login);
 
-routes.get("/mail", UserController.mail);
-
 // Authentication
 routes.use(AuthMiddleware);
 
@@ -27,5 +25,8 @@ routes.post("/favorites", FavoriteController.store);
 routes.get("/favorites/:id", FavoriteController.show);
 routes.put("/favorites/:id", FavoriteController.update);
 routes.delete("/favorites/:id", FavoriteController.destroy);
+
+// Send mail
+routes.get("/mail", UserController.mail);
 
 module.exports = routes;
