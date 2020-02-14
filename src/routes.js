@@ -5,6 +5,12 @@ const UserController = require("./app/controllers/UserController");
 const FavoriteController = require("./app/controllers/FavoriteController");
 const MailController = require("./app/controllers/MailController");
 
+const BullBoard = require("bull-board");
+const Queue = require("./app/libs/Queue");
+
+BullBoard.setQueues(Queue);
+routes.use("/queues", BullBoard.UI);
+
 // Register
 routes.post("/users", UserController.store);
 
