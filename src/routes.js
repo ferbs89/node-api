@@ -3,12 +3,16 @@ const routes = require("express").Router();
 const AuthMiddleware = require("./app/middlewares/Auth");
 const UserController = require("./app/controllers/UserController");
 const FavoriteController = require("./app/controllers/FavoriteController");
+const MailController = require("./app/controllers/MailController");
 
 // Register
 routes.post("/users", UserController.store);
 
 // Login
 routes.post("/login", UserController.login);
+
+// Mail
+routes.get("/mail", MailController.send);
 
 // Authentication
 routes.use(AuthMiddleware);
@@ -25,8 +29,5 @@ routes.post("/favorites", FavoriteController.store);
 routes.get("/favorites/:id", FavoriteController.show);
 routes.put("/favorites/:id", FavoriteController.update);
 routes.delete("/favorites/:id", FavoriteController.destroy);
-
-// Send mail
-routes.get("/mail", UserController.mail);
 
 module.exports = routes;
