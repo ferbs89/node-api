@@ -11,7 +11,7 @@ module.exports = {
         if (!user)
             return res.status(400).json({ error: "Usuário não encontrado." });
 
-        return res.json({ user });
+        return res.json(user.wishlists);
     },
 
     async store(req, res) {
@@ -28,11 +28,11 @@ module.exports = {
             description,
             value,
             user_id,
-        })
-        .then(wishlist => {
-            return res.json({ wishlist });
-        })
-        .catch(err => {
+        
+        }).then(wishlist => {
+            return res.json(wishlist);
+        
+        }).catch(err => {
             if (!err.errors)
                 return res.status(400).json({ error: "Não foi possível salvar o registro." });
 

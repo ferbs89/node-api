@@ -1,5 +1,4 @@
 const { User } = require('../models');
-const jwt = require('jsonwebtoken');
 
 module.exports = {
     async index(req, res) {
@@ -16,24 +15,24 @@ module.exports = {
     },
 
     async store(req, res) {
-        const user = await User.findOne({ 
-            where: { 
-                email: req.body.email 
-            } 
+        const { name, email, password } = req.body;
+
+        const user = await User.findOne({
+            where: { email }
         });
 
         if (user)
             return res.status(400).json({ error: "O e-mail informado já possui cadastro." });
 
-        await User.create(
-            req.body
-        )
-        .then(user => {
-            user.password = undefined;
-
-            return res.json({ user });
-        })
-        .catch(err => {
+        await User.create({
+            name,
+            email,
+            password,
+        
+        }).then(user => {
+            return res.json({ id: user.id });
+        
+        }).catch(err => {
             if (!err.errors)
                 return res.status(400).json({ error: "Não foi possível salvar o usuário." });
 
@@ -46,27 +45,46 @@ module.exports = {
     },
 
     async show(req, res) {
-        const user = await User.findByPk(req.params.id);
+        const { id } = req.params;
+
+        const user = await User.findByPk(id, { 
+            attributes: {
+                exclude: ['password']
+            }
+        });
 
         if (!user)
             return res.status(400).json({ error: "Usuário não encontrado." });
 
-        return res.json({ user });
+        return res.json(user);
     },
 
     async update(req, res) {
-        const user = await User.findByPk(req.params.id);
+        const { id } = req.params;
+        const { name, email, password } = req.body;
+
+        const user = await User.findByPk(id);
 
         if (!user)
             return res.status(400).json({ error: "Usuário não encontrado." });
 
-        await user.update(req.body);
+        await user.update({
+            name,
+            email,
+            password,
+        
+        }).then(user => {
+            return res.send();
 
-        return res.json({ user });
+        }).catch(err => {
+            return res.status(400).json({ error: "Não foi possível atualizar o usuário." });
+        });
     },
 
     async destroy(req, res) {
-        const user = await User.findByPk(req.params.id);
+        const { id } = req.params;
+
+        const user = await User.findByPk(id);
 
         if (!user)
             return res.status(400).json({ error: "Usuário não encontrado." });
@@ -74,30 +92,5 @@ module.exports = {
         user.destroy();
 
         return res.send();
-    },
-
-    async login(req, res) {
-        const { email, password } = req.body;
-
-        const user = await User.findOne({ 
-            where: { 
-                email 
-            } 
-        });
-
-        if (!user)
-            return res.status(400).json({ error: "E-mail não encontrado." });
-
-        if (user.password != password)
-            return res.status(400).json({ error: "Senha incorreta." });
-
-        user.password = undefined;
-
-        const token = jwt.sign({ id: user.id }, process.env.APP_SECRET);
-
-        return res.json({ 
-            user,
-            token
-        });
     }
 };
