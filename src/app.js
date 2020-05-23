@@ -1,22 +1,22 @@
 const express = require("express");
 const cors = require("cors");
 
-class AppController {
+class App {
     constructor() {
-        this.express = express();
+        this.server = express();
 
         this.middlewares();
         this.routes();
     }
 
     middlewares() {
-        this.express.use(cors());
-        this.express.use(express.json());
+        this.server.use(cors());
+        this.server.use(express.json());
     }
 
     routes() {
-        this.express.use("/api", require("./routes"));
+        this.server.use("/api", require("./routes"));
     }
 }
 
-module.exports = new AppController().express;
+module.exports = new App().server;

@@ -7,7 +7,7 @@ const WishlistController = require("./app/controllers/WishlistController");
 const MailController = require("./app/controllers/MailController");
 
 const BullBoard = require("bull-board");
-const Queue = require("./app/libs/Queue");
+const Queue = require("./lib/Queue");
 
 BullBoard.setQueues(Queue);
 routes.use("/queues", BullBoard.UI);

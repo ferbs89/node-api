@@ -1,4 +1,4 @@
-const Queue = require('../libs/Queue');
+const Queue = require('../../lib/Queue');
 
 module.exports = {
     async send(req, res) {

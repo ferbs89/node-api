@@ -1,4 +1,4 @@
-const Mail = require('../libs/Mail');
+const Mail = require('../../lib/Mail');
 
 module.exports = {
     key: 'SendMail',
