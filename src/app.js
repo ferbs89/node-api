@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 class AppController {
     constructor() {
@@ -9,6 +10,7 @@ class AppController {
     }
 
     middlewares() {
+        this.express.use(cors());
         this.express.use(express.json());
     }
 
