@@ -4,6 +4,9 @@ module.exports = {
     async index(req, res) {
         const { user_id } = req.params;
 
+        if (user_id != req.userId)
+            return res.status(403).json({ error: "Acesso negado." });
+
         const user = await User.findByPk(user_id, {
             include: { association: 'wishlists' }
         });
@@ -37,7 +40,6 @@ module.exports = {
                 return res.status(400).json({ error: "Não foi possível salvar o registro." });
 
             const error = [];
-
             err.errors.map(e => error.push(e.message));
 
             return res.status(400).json({ error });

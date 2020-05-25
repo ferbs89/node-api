@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
     const authHeader = req.headers.authorization;
-    const errorMessage = "Credenciais inválidas.";
+    const errorMessage = "Acesso negado.";
 
     if (!authHeader)
         return res.status(401).json({ error: errorMessage });
@@ -11,9 +11,8 @@ module.exports = async (req, res, next) => {
     const [ scheme, token ] = authHeader.split(" ");
 
     try {
-        decoded = jwt.verify(token, process.env.APP_SECRET);
-
-        const user = await User.findByPk(decoded.id);
+        const { id } = jwt.verify(token, process.env.APP_SECRET);
+        const user = await User.findByPk(id);
 
         if (!user)
             return res.status(401).json({ error: errorMessage });

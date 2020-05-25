@@ -37,7 +37,6 @@ module.exports = {
                 return res.status(400).json({ error: "Não foi possível salvar o usuário." });
 
             const error = [];
-
             err.errors.map(e => error.push(e.message));
 
             return res.status(400).json({ error });
