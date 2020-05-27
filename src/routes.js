@@ -29,7 +29,10 @@ routes.delete("/users/:id", UserController.destroy);
 
 // Wishlist
 routes.get("/users/:user_id/wishlist", WishlistController.index);
+routes.get("/users/:user_id/wishlist/:id", WishlistController.show);
 routes.post("/users/:user_id/wishlist", WishlistController.store);
+routes.put("/users/:user_id/wishlist/:id", WishlistController.update);
+routes.delete("/wishlist/:id", WishlistController.destroy);
 
 // Mail
 routes.get("/mail", MailController.send);
