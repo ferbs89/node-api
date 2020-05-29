@@ -62,6 +62,9 @@ module.exports = {
 		if (!wishlist)
 			return res.status(400).json({ error: "Registro não encontrado." });
 
+		if (wishlist.user_id != req.userId)
+			return res.status(403).json({ error: "Acesso negado." });
+
 		return res.json(wishlist);
 	},
 
