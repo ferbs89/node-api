@@ -3,6 +3,7 @@ const routes = require("express").Router();
 const AuthMiddleware = require("./app/middlewares/Auth");
 const SessionController = require("./app/controllers/SessionController");
 const UserController = require("./app/controllers/UserController");
+const FinanceController = require("./app/controllers/FinanceController");
 const WishlistController = require("./app/controllers/WishlistController");
 const MailController = require("./app/controllers/MailController");
 
@@ -26,6 +27,11 @@ routes.get("/users", UserController.index);
 routes.get("/users/:id", UserController.show);
 routes.put("/users/:id", UserController.update);
 routes.delete("/users/:id", UserController.destroy);
+
+// Finance
+routes.get("/users/:user_id/finances", FinanceController.index);
+routes.post("/users/:user_id/finances", FinanceController.store);
+routes.put("/users/:user_id/finances/:id", FinanceController.update);
 
 // Wishlist
 routes.get("/users/:user_id/wishlist", WishlistController.index);
