@@ -53,6 +53,23 @@ module.exports = {
 		});
 	},
 
+	async show(req, res) {
+		const { user_id, id } = req.params;
+
+		if (user_id != req.userId)
+			return res.status(403).json({ error: "Acesso negado." });
+
+		const finance = await Finance.findByPk(id);
+
+		if (!finance)
+			return res.status(400).json({ error: "Registro não encontrado." });
+
+		if (finance.user_id != req.userId)
+			return res.status(403).json({ error: "Acesso negado." });
+
+		return res.json(finance);
+	},
+
 	async update(req, res) {
 		const { user_id, id } = req.params;
 		const { date, description, type, value } = req.body;
@@ -77,5 +94,18 @@ module.exports = {
 		}).catch(error => {
 			return res.status(400).json({ error: "Não foi possível atualizar o registro." });
 		});
+	},
+
+	async destroy(req, res) {
+		const { id } = req.params;
+
+		const finance = await Finance.findByPk(id);
+
+		if (!finance)
+			return res.status(400).json({ error: "Registro não encontrado." });
+
+		finance.destroy();
+
+		return res.send();
 	},
 };

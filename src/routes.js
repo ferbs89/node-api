@@ -30,8 +30,10 @@ routes.delete("/users/:id", UserController.destroy);
 
 // Finance
 routes.get("/users/:user_id/finances", FinanceController.index);
+routes.get("/users/:user_id/finances/:id", FinanceController.show);
 routes.post("/users/:user_id/finances", FinanceController.store);
 routes.put("/users/:user_id/finances/:id", FinanceController.update);
+routes.delete("/finances/:id", FinanceController.destroy);
 
 // Wishlist
 routes.get("/users/:user_id/wishlist", WishlistController.index);
