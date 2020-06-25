@@ -16,6 +16,11 @@ module.exports = {
 			email: user.email,
 		}, process.env.APP_SECRET);
 
-		return res.json({ token });
+		return res.json({ 
+			id: user.id,
+			name: user.name,
+			email: user.email,
+			token,
+		});
 	}
 };
